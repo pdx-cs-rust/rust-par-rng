@@ -6,8 +6,7 @@ const SIZE: usize = 1024*1024*1024;
 const THREADS: usize = 2;
 
 fn main() {
-    let mut rands: Vec<u8> = Vec::with_capacity(SIZE);
-    rands.resize(SIZE, 0);
+    let mut rands = vec![0u8; SIZE];
 
     thread::scope(|scope| {
         for rands in rands.chunks_mut(SIZE / THREADS) {
