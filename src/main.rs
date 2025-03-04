@@ -10,16 +10,10 @@ fn main() {
     rands.resize(SIZE, 0);
 
     thread::scope(|scope| {
-        let (first, second) = rands.split_at_mut(SIZE / 2);
-        for nt in 0..THREADS {
+        for rands in rands.chunks_mut(SIZE / THREADS) {
             scope.spawn(|| {
-                let section = if nt == 0 {
-                    first
-                } else {
-                    second
-                };
                 let mut seed_rng = StdRng::from_os_rng();
-                for v in section {
+                for v in rands {
                     *v = seed_rng.random();
                 }
             });
