@@ -1,12 +1,17 @@
 use std::thread;
 
 use clap::Parser;
-extern crate parse_size;
+use parse_size::Config as ParseSize;
 use rand::{rngs::StdRng, Rng, SeedableRng};
 
 #[derive(Debug, Parser)]
 struct Args {
-    #[arg(short, long, default_value="1GB", value_parser=|s: &str| parse_size::parse_size(s))]
+    #[arg(
+        short,
+        long,
+        default_value="1GB",
+        value_parser=|s: &str| ParseSize::new().with_binary().parse_size(s),
+    )]
     size: u64,
     #[arg(short, long, default_value="1")]
     threads: usize,
